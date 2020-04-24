@@ -55,6 +55,8 @@ class App extends Component {
 }
 
 export default withTracker(() => {
+  Meteor.subscribe('games');
+
   return {
     games: Games.find().fetch(),
     user: Meteor.user(),
