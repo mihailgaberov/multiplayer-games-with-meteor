@@ -3,6 +3,7 @@ import { withTracker } from 'meteor/react-meteor-data';
 import Games from '../api/collections/games.js';
 import GameList from './GameList.jsx';
 import GameBoard from './GameBoard.jsx';
+import LoginForm from './LoginForm.jsx';
 
 class App extends Component {
   constructor(props) {
@@ -27,17 +28,27 @@ class App extends Component {
   }
 
   render() {
+    if (!this.props.user) {
+      return (
+        <div>
+          <LoginForm />
+        </div>
+      )
+    }
+
     if (this.state.selectedGameId === null) {
       return (
         <GameList
           games={this.props.games}
-          enterGameHandler={this.handleEnterGame.bind(this)} />
+          enterGameHandler={this.handleEnterGame.bind(this)}
+          user={this.props.user} />
       )
     } else {
       return (
         <GameBoard
           game={this.selectedGame()}
-          backToGameListHandler={this.handleBackToGameList.bind(this)} />
+          backToGameListHandler={this.handleBackToGameList.bind(this)}
+          user={this.props.user} />
       )
     }
   }
@@ -45,6 +56,7 @@ class App extends Component {
 
 export default withTracker(() => {
   return {
-    games: Games.find().fetch()
+    games: Games.find().fetch(),
+    user: Meteor.user(),
   };
 })(App);
