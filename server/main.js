@@ -1,5 +1,5 @@
 import { Meteor } from 'meteor/meteor';
-import Games from '../imports/api/collections/games.js';
+import '../imports/api/methods/games.js';
 
 Meteor.startup(() => {
 });

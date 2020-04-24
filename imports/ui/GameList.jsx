@@ -1,18 +1,18 @@
 import React, { Component } from 'react';
-import { GamesController } from '../api/controllers/gamesController.js';
 import { GameStatuses } from '../api/models/game.js';
+import { newGame, userJoinGame, userLeaveGame } from '../api/methods/games.js';
 
 export default class GameList extends Component {
   handleNewGame() {
-    GamesController.newGame(this.props.user);
+    newGame.call({});
   }
 
   handleLeaveGame(gameId) {
-    GamesController.userLeaveGame(gameId, this.props.user);
+    userLeaveGame.call({gameId: gameId});
   }
 
   handleJoinGame(gameId) {
-    GamesController.userJoinGame(gameId, this.props.user);
+    userJoinGame.call({gameId: gameId});
   }
 
   handleEnterGame(gameId) {

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { GamesController } from "../api/controllers/gamesController";
+import { userMarkGame } from '../api/methods/games.js';
 
 export default class GameBoard extends Component {
   currentPlayer() {
@@ -11,13 +11,13 @@ export default class GameBoard extends Component {
         if (this.props.game.board[r][c] !== null) filledCount++;
       }
     }
-    return (filledCount % 2 === 0? 0: 1);
+    return (filledCount % 2 === 0 ? 0 : 1);
   }
 
   handleCellClick(row, col) {
     const { game } = this.props;
     if (game.currentPlayerIndex() !== game.userIndex(this.props.user)) return;
-    GamesController.userMarkGame(game._id, this.props.user, row, col);
+    userMarkGame.call({ gameId: game._id, row: row, col: col });
   }
 
   handleBackToGameList() {
