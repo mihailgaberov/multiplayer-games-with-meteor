@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { GamesController } from "../api/controllers/gamesController";
 
 export default class GameBoard extends Component {
   currentPlayer() {
@@ -14,15 +15,9 @@ export default class GameBoard extends Component {
   }
 
   handleCellClick(row, col) {
-    let currentPlayer = this.currentPlayer();
-    let game = this.props.game;
-
-    if (game.players[currentPlayer].userId !== this.props.user._id) return;
-
-    game.board[row][col] = currentPlayer;
-    Games.update(game._id, {
-      $set: {board: game.board}
-    });
+    const { game } = this.props;
+    if (game.currentPlayerIndex() !== game.userIndex(this.props.user)) return;
+    GamesController.userMarkGame(game._id, this.props.user, row, col);
   }
 
   handleBackToGameList() {
@@ -37,10 +32,32 @@ export default class GameBoard extends Component {
       <td onClick={this.handleCellClick.bind(this, row, col)}></td>
     );
   }
+
+  renderStatus() {
+    let game = this.props.game;
+    let status = "";
+    if (game.status === GameStatuses.STARTED) {
+      let playerIndex = game.currentPlayerIndex();
+      status = `In Progress: current player: ${game.players[playerIndex].username}`;
+    } else if (game.status === GameStatuses.FINISHED) {
+      let playerIndex = game.winner();
+      if (playerIndex === null) {
+        status = "Finished: tie";
+      } else {
+        status = `Finished: winner: ${game.players[playerIndex].username}`;
+      }
+    }
+
+    return (
+      <div>{status}</div>
+    )
+  }
+
   render() {
     return (
       <div>
         <button onClick={this.handleBackToGameList.bind(this)}>Back</button>
+        {this.renderStatus()}
         <table className="game-board">
           <tbody>
           <tr>
