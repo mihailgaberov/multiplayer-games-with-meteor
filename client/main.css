@@ -1,0 +1,11 @@
+body {
+  padding: 10px;
+  font-family: sans-serif;
+}
+
+table.game-board tr td {
+  border: 1px solid black;
+  width: 30px;
+  height: 30px;
+  text-align: center;
+}
