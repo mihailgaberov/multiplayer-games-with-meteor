@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { userMarkGame } from '../api/methods/games.js';
+import { GameStatuses } from "../api/models/game";
 
 export default class GameBoard extends Component {
   currentPlayer() {
