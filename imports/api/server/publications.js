@@ -1,5 +1,6 @@
 import { GameStatuses } from '../models/game.js';
 import Games from '../collections/games.js';
+import { Game } from "../models/game";
 
 Meteor.publish('games', function () {
   // access control: only for logged-in users
@@ -10,3 +11,12 @@ Meteor.publish('games', function () {
     return null;
   }
 });
+/*
+Meteor.publish('test', function () {
+  Meteor.setInterval(() => {
+    console.log('>>> kaboom');
+    let game = new Game();
+    // game.userJoin(this.userId);
+    Games.saveGame(game);
+  }, 2000);
+});*/
